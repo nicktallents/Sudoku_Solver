@@ -15,7 +15,6 @@ const int SQ6[18] = {4,7, 4,8, 4,9, 5,7, 5,8, 5,9, 6,7, 6,8, 6,9};	// |-----|---
 const int SQ7[18] = {7,1, 7,2, 7,3, 8,1, 8,2, 8,3, 9,1, 9,2, 9,3};	// | SQ7 | SQ8 | SQ9 |
 const int SQ8[18] = {7,4, 7,5, 7,6, 8,4, 8,5, 8,6, 9,4, 9,5, 9,6};	// |_____|_____|_____|
 const int SQ9[18] = {7,7, 7,8, 7,9, 8,7, 8,8, 8,9, 9,7, 9,8, 9,9};	//
-//vector<vector<int> >squares;
 
 class Sudoku
 {
@@ -35,8 +34,10 @@ public:
 	class INVALID_VAL_PARAMETER {};
 private:
 	int** grid; // Double bounded array. Index 0 determines whether or not a row/column is filled.
-};
 
-void fillSquares();
+
+	void fillSquares();
+	std::vector<std::vector<int> >squares;
+};
 
 #endif

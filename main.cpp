@@ -9,6 +9,12 @@ int main(int argc, char **argv)
 	Sudoku puzzle(fin);
 
 	puzzle.print(cout);
+	cout << endl;
+
+	if (puzzle.isValidEntry(1,1,1))
+		cout << "Is a valid entry" << endl;
+	else
+		cout << "Is not a valid entry" << endl;
 
 	cout << endl;
 	return 0;

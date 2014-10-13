@@ -15,6 +15,8 @@ Sudoku::Sudoku(std::istream& in)
 		}
 	}
 	grid[0][0] = 1;
+
+	fillSquares();
 }
 
 void Sudoku::getGrid(int** val)
@@ -119,28 +121,31 @@ bool Sudoku::isValidEntry(int row, int col, int val)
 	if (val < 0 || col > 9)
 		throw (new INVALID_VAL_PARAMETER());
 
-	for (int i=1; i<10; i++)
+	int square = getSqNumber(row,col);
+
+	for (int i=1; i<10; i++) {
 		if (grid[row][i] == val || grid[i][col] == val)
 			return false;
-	
-	
+		if (grid[squares[square][i-1]][squares[square][i]] == val)
+			return false;
+	}	
 
 	return true;
 }
 
-//void fillSquares()
-//{
-//	for (int i=0; i<9; i++)
-//		squares.push_back(vector<int>());
-//	for (int i=0; i<18; i++) {
-//		squares[0].push_back(SQ1[i]);
-//		squares[1].push_back(SQ2[i]);
-//		squares[2].push_back(SQ3[i]);
-//		squares[3].push_back(SQ4[i]);
-//		squares[4].push_back(SQ5[i]);
-//		squares[5].push_back(SQ6[i]);
-//		squares[6].push_back(SQ7[i]);
-//		squares[7].push_back(SQ8[i]);
-//		squares[8].push_back(SQ9[i]);
-//	}
-//}
+void Sudoku::fillSquares()
+{
+	for (int i=0; i<9; i++)
+		squares.push_back(vector<int>());
+	for (int i=0; i<18; i++) {
+		squares[0].push_back(SQ1[i]);
+		squares[1].push_back(SQ2[i]);
+		squares[2].push_back(SQ3[i]);
+		squares[3].push_back(SQ4[i]);
+		squares[4].push_back(SQ5[i]);
+		squares[5].push_back(SQ6[i]);
+		squares[6].push_back(SQ7[i]);
+		squares[7].push_back(SQ8[i]);
+		squares[8].push_back(SQ9[i]);
+	}
+}
