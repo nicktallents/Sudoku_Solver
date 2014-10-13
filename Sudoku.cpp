@@ -91,23 +91,23 @@ int Sudoku::getSqNumber(int row, int col)
 
 	switch (4*r + c) {
 	case 5:
-		return 1;
+		return 0;
 	case 6:
-		return 2;
+		return 1;
 	case 7:
-		return 3;
+		return 2;
 	case 9:
-		return 4;
+		return 3;
 	case 10:
-		return 5;
+		return 4;
 	case 11:
-		return 6;
+		return 5;
 	case 13:
-		return 7;
+		return 6;
 	case 14:
-		return 8;
+		return 7;
 	case 15:
-		return 9;
+		return 8;
 	}
 	return -1;
 }
@@ -121,7 +121,7 @@ bool Sudoku::isValidEntry(int row, int col, int val)
 	if (val < 0 || col > 9)
 		throw (new INVALID_VAL_PARAMETER());
 
-	int square = getSqNumber(row,col) -1;
+	int square = getSqNumber(row,col);
 
 	for (int i=1; i<10; i++) {
 		if (grid[row][i] == val || grid[i][col] == val)
@@ -143,14 +143,14 @@ void Sudoku::fillSquares()
 	for (int i=0; i<9; i++)
 		squares.push_back(vector<int>());
 	for (int i=0; i<18; i++) {
-		squares[0].push_back(SQ1[i]);
-		squares[1].push_back(SQ2[i]);
-		squares[2].push_back(SQ3[i]);
-		squares[3].push_back(SQ4[i]);
-		squares[4].push_back(SQ5[i]);
-		squares[5].push_back(SQ6[i]);
-		squares[6].push_back(SQ7[i]);
-		squares[7].push_back(SQ8[i]);
-		squares[8].push_back(SQ9[i]);
+		squares[0].push_back(SQ0[i]);
+		squares[1].push_back(SQ1[i]);
+		squares[2].push_back(SQ2[i]);
+		squares[3].push_back(SQ3[i]);
+		squares[4].push_back(SQ4[i]);
+		squares[5].push_back(SQ5[i]);
+		squares[6].push_back(SQ6[i]);
+		squares[7].push_back(SQ7[i]);
+		squares[8].push_back(SQ8[i]);
 	}
 }
