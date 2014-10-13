@@ -5,7 +5,7 @@ using std::vector;
 #ifndef SUDOKU_H
 #define SUDOKU_H
 
-const int PRINT_START = 0; // Index to start printing, 0 to include indices that show full rows or columns
+const int PRINT_START = 1; // Index to start printing, 0 to include indices that show full rows or columns
 const int SQ1[18] = {1,1, 1,2, 1,3, 2,1, 2,2, 2,3, 3,1, 3,2, 3,3};	// Sets of (row,column) pairs
 const int SQ2[18] = {1,4, 1,5, 1,6, 2,4, 2,5, 2,6, 3,4, 3,5, 3,6};	// ___________________
 const int SQ3[18] = {1,7, 1,8, 1,9, 2,7, 2,8, 2,9, 3,7, 3,8, 3,9};	// | SQ1 | SQ2 | SQ3 |

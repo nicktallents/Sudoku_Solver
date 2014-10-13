@@ -89,7 +89,7 @@ int Sudoku::getSqNumber(int row, int col)
 	else if (col > 6) c = 3;
 	else c = 2;
 
-	switch (4*r + 3) {
+	switch (4*r + c) {
 	case 5:
 		return 1;
 	case 6:
@@ -121,14 +121,19 @@ bool Sudoku::isValidEntry(int row, int col, int val)
 	if (val < 0 || col > 9)
 		throw (new INVALID_VAL_PARAMETER());
 
-	int square = getSqNumber(row,col);
+	int square = getSqNumber(row,col) -1;
 
 	for (int i=1; i<10; i++) {
 		if (grid[row][i] == val || grid[i][col] == val)
 			return false;
-		if (grid[squares[square][i-1]][squares[square][i]] == val)
+	}
+	for (int i=0; i<18; i+=2) {
+		auto v = grid[squares[square][i]][squares[square][i+1]];
+		auto r = squares[square][i];
+		auto c = squares[square][i+1];
+		if (grid[squares[square][i]][squares[square][i+1]] == val)
 			return false;
-	}	
+	}
 
 	return true;
 }
