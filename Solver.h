@@ -2,6 +2,7 @@
 #define SOLVER_H
 
 #include <vector>
+#include <algorithm>
 #include "Sudoku.h"
 
 struct Change

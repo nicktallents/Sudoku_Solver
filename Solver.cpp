@@ -43,7 +43,35 @@ void Solver::solve()
 			}
 		}
 		change = (a || b || c);
+
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				if(sudoku->getGrid()[i+1][j+1] != 0) {
+					possibleValues[i][j].clear();
+					possibleValues[i][j].push_back(sudoku->getGrid()[i+1][j+1]);
+				}
+			}
+		}
+		for(int i=0;i<possibleValues.size(); i++) {
+			for(int j=0;j<possibleValues[i].size();j++) {
+				if(possibleValues[i][j].size() == 1) {
+					sudoku->changeEntry(i+1,j+1,possibleValues[i][j][0]);
+				}
+			}
+		}
 	}
+	
+
+	//Force all initial constraints to assign values
+	/*for(int i=0;i<possibleValues.size(); i++) {
+		for(int j=0;j<possibleValues[i].size();j++) {
+			if(possibleValues[i][j].size() == 1) {
+				sudoku->changeEntry(i+1,j+1,possibleValues[i][j][0]);
+			}
+		}
+	}*/
+	sudoku->print(cout);
+	getchar();
 	
 	while (!solved()) {
 
@@ -95,22 +123,37 @@ bool Solver::constrainRowDomains(int row)
 	bool change = false;
 	//For each element in the row
 	for (int i=0; i<9; i++) {
-		int temp = sudoku->getGrid()[row][i+1];
+		int selected = sudoku->getGrid()[row][i+1];
 		//If the element is non-zero
-		if (sudoku->getGrid()[row][i+1] != 0) {
+		if (selected != 0) {
 			//For each other element in the row
 			for (int k=0; k<9; k++) {
 				if(k == i) continue;
 				//Remove the value of the selected element from the domain of every other
-				//element in the row. 
-				for (auto j=possibleValues[row-1][k].begin(); j!=possibleValues[row-1][k].end(); j++) {
-					if (*j == sudoku->getGrid()[row][i+1]) {
+				//element in the row.
+					auto it = find(possibleValues[row-1][k].begin(), possibleValues[row-1][k].end(), selected);
+					if(it != possibleValues[row-1][k].end()) {
+						possibleValues[row-1][k].erase(it);
+						change = true;
+					}
+					/*for(int j=0;j<possibleValues[row-1][k].size();j++) {
+						if(possibleValues[row-1][k][j] == selected) {
+							swap(possibleValues[row-1][k][j],possibleValues[row-1][k][possibleValues[row-1][k].size()-1]);
+							possibleValues[row-1][k].pop_back();
+							change = true;
+							loop = true;
+							break;
+						}
+
+					}*/
+				}
+	/*			for (auto j=possibleValues[row-1][k].begin(); j!=possibleValues[row-1][k].end(); j++) {
+					if (*j == selected) {
 						possibleValues[row-1][k].erase(j);
 						change = true;
 						break;
 					}
-				}
-			}
+				}*/
 		}
 	}
 	return change;
@@ -122,20 +165,31 @@ bool Solver::constrainColumnDomains(int col)
 	//For each element in the column
 	for (int i=0; i<9; i++) {
 		//If the element is nonzero
-		if (sudoku->getGrid()[i+1][col] != 0) {
+		int selected = sudoku->getGrid()[i+1][col];
+		if (selected != 0) {
 			//For each other element
 			for (int k=0; k<9; k++) {
 				if(k == i) continue;
-				//Remove the value of the selected element from teh domain of
+				//Remove the value of the selected element from the domain of
 				//each element in the column
-				for (int j=0; j<possibleValues[k][col-1].size(); j++) {
-					if (possibleValues[k][col-1][j] == sudoku->getGrid()[i+1][col]) {
-						swap(possibleValues[k][col-1][j],possibleValues[k][col-1][possibleValues[k][col-1].size()-1]);
-						possibleValues[k][col-1].pop_back();
-						change = true;
-						break;
-					}
+				auto it = find(possibleValues[k][col-1].begin(), possibleValues[k][col-1].end(), selected);
+				if(it != possibleValues[k][col-1].end()) {
+					possibleValues[k][col-1].erase(it);
+					change = true;
 				}
+			/*	loop = true;
+				while(loop) {
+					loop = false;
+					for (int j=0; j<possibleValues[k][col-1].size(); j++) {
+						if (possibleValues[k][col-1][j] == selected) {
+							swap(possibleValues[k][col-1][j],possibleValues[k][col-1][possibleValues[k][col-1].size()-1]);
+							possibleValues[k][col-1].pop_back();
+							change = true;
+							loop = true;
+							break;
+						}
+					}
+				}*/
 			}
 		}
 	}
@@ -150,23 +204,31 @@ bool Solver::constrainLocalBlock(int row, int col)
 	//Square Indices
 	for (int i=0; i<18; i+=2) {
 		//For each slot in the square
-		if (sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] != 0) {
+		int selected = sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]];
+		if (selected != 0) {
 			//If the slot has a value already
 			for (int j=0; j<18; j+=2) {
 				//For each slot in the square
-				if(sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] == sudoku->getGrid()[squares[sq][j]][squares[sq][j+1]]) continue;
-				for (int k=0; k< possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size(); k++) {
-					//For each possible value in the slot's domain
-					if (sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] == possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k]) {
-						//If the value at the current non-zero slot equals a value in the domain of the slot in question
-						swap(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k], possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].at(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size()-1));
-						//Move the value in the domain to the end of the vector
-						possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].pop_back();
-						//Pop the value
+				int tempRow = squares[sq][j]-1;
+				int tempCol = squares[sq][j+1]-1;
+				if(selected == sudoku->getGrid()[tempRow+1][tempCol+1]) continue;
+					auto it = find(possibleValues[tempRow][tempCol].begin(), possibleValues[tempRow][tempCol].end(), selected);
+					if( it != possibleValues[tempRow][tempCol].end()) {
+						possibleValues[tempRow][tempCol].erase(it);
 						change = true;
-						break;
 					}
-				}
+					//}
+					//for (int k=0; k< possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size(); k++) {
+					//	//For each possible value in the slot's domain
+					//	if (selected == possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k]) {
+					//		//If the value at the current non-zero slot equals a value in the domain of the slot in question
+					//		swap(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k], possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].at(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size()-1));
+					//		//Move the value in the domain to the end of the vector
+					//		possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].pop_back();
+					//		//Pop the value
+					//		change = true;
+					//	}
+					//}
 			}
 		}
 	}
