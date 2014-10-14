@@ -20,6 +20,14 @@ public:
 	bool constrainRowDomains(int row);
 	bool constrainColumnDomains(int col);
 	bool constrainLocalBlock(int row, int col);
+
+	void restoreDomains(Change ch);
+
+	bool inconsistent();
+
+	void backTrack();
+	void guess();
+
 private:
 	Sudoku* sudoku;
 	std::vector<Change> changes;
