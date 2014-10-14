@@ -16,11 +16,20 @@ Solver::Solver(Sudoku* s)
 
 void Solver::solve()
 {
-	for (int i=1; i<10; i++)
-		constrainRowDomains(i);
-	for (int i=1; i<10; i++)
-		constrainColumnDomains(i);
-
+	bool change = true;
+	while (change) {
+		bool a,b,c;
+		a = b = c = false;
+		for (int i=1; i<10; i++)
+			a = constrainRowDomains(i);
+		for (int i=1; i<10; i++)
+			b = constrainColumnDomains(i);
+		for (int i=1; i<10; i+=3)
+			for (int j=1; j<10; j+=3)
+				if (constrainLocalBlock(i,j))
+					c = true;
+		change = (a || b || c);
+	}
 	guess();
 	
 	while (!solved()) {
