@@ -10,7 +10,7 @@ Sudoku Solver
 using namespace std;
 
 //Replace input.txt with whatever text file of your puzzle
-#define INPUTFILE "input3.txt"
+#define INPUTFILE "input.txt"
 
 int main(int argc, char **argv)
 {
