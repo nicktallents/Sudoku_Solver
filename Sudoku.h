@@ -21,6 +21,7 @@ class Sudoku
 public:
 	Sudoku(std::istream& in);
 
+	int** getGrid(); // Shallow copy of grid
 	void getGrid(int** val); // Accessor function for grid. val must be initialized as a double bounded array [10][10]
 	void print(std::ostream& out);
 	void changeEntry(int row, int col, int val); // row, col, and val must be 0-9
@@ -28,7 +29,7 @@ public:
 	bool isColFull(int col); // col must be 0-9
 
 	
-	int  getSqNumber(int row, int col);
+	int  getSqNumber(int row, int col); // returns the index of the 3x3 square you're in given the coordinates
 	bool isValidEntry(int row, int col, int val); // row, col, and val must be 0-9
 
 	class INVALID_ROW_PARAMETER {};
@@ -38,7 +39,7 @@ private:
 	int** grid; // Double bounded array. Index 0 determines whether or not a row/column is filled.
 
 
-	void fillSquares();
+	void fillSquares(); // populates squares vector
 	std::vector<std::vector<int> >squares;
 };
 

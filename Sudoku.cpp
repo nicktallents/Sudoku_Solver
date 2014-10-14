@@ -19,6 +19,11 @@ Sudoku::Sudoku(std::istream& in)
 	fillSquares();
 }
 
+int** Sudoku::getGrid()
+{
+	return grid;
+}
+
 void Sudoku::getGrid(int** val)
 {
 	for (int i=0; i<10; i++) {
