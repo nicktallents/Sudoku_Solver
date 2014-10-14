@@ -9,6 +9,13 @@ struct Change
 	int row;
 	int column;
 	int value;
+	vector<int> domain;
+};
+
+struct Pair
+{
+	int row;
+	int column;
 };
 
 class Solver
@@ -25,13 +32,15 @@ public:
 
 	bool inconsistent();
 
-	void backTrack();
+	void backTrack(bool& root);
 	void guess();
 
 private:
 	Sudoku* sudoku;
 	std::vector<Change> changes;
 	std::vector<std::vector<std::vector<int>>> possibleValues;
+
+	std::vector<Pair> chosenRoots;
 };
 
 #endif
