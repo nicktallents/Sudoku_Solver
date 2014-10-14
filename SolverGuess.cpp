@@ -1,3 +1,8 @@
+/*************************************
+David Goehring, Nick Tallents
+Comp 445 Artificial Intelligence
+Sudoku Solver
+*************************************/
 #include "Solver.h"
 using namespace std;
 
@@ -16,30 +21,6 @@ void Solver::guess() {
 	int smallest = 10;
 	int guessRow, guessCol;
 
-	/*if(changes.size() == 0) {
-		bool skip = false;
-		for(int i=0;i<possibleValues.size(); i++) {
-			for(int j=0;j<possibleValues[i].size(); j++) {
-				if(sudoku->getGrid()[i+1][j+1]==0) {
-					for(int k=0;k<chosenRoots.size();k++) {
-						if(chosenRoots[k].row == i && chosenRoots[k].column == j) {
-							skip = true;
-						}
-					}
-					if(possibleValues[i][j].size() < smallest && possibleValues[i][j].size() > 1 && !skip) {
-						smallest = possibleValues[i][j].size();
-						guessRow = i;
-						guessCol = j;
-					}
-				}
-			}
-		}
-		if(smallest == 10) {
-			cout << "No solution" << endl;
-			exit(1);
-		}
-	}
-	else {*/
 		//For each unchosen node, find the smallest domain
 		for(int i=0;i<possibleValues.size();i++) {
 			for(int j=0;j<possibleValues[i].size();j++) {
@@ -51,7 +32,6 @@ void Solver::guess() {
 					}
 			}
 		}
-//}
 
 
 	Change ch;
@@ -76,11 +56,6 @@ void Solver::backTrack(bool& root) {
 		cout << "No solution" << endl;
 		exit(1);
 	}
-
-	//if(changes.size() == 0) {
-	//	root = true;
-	//	return;
-	//}
 	Change ch = changes[changes.size()-1];
 	changes.pop_back();
 

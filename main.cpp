@@ -1,12 +1,20 @@
+/*************************************
+David Goehring, Nick Tallents
+Comp 445 Artificial Intelligence
+Sudoku Solver
+*************************************/
 #include <iostream>
 #include <fstream>
 #include "Sudoku.h"
 #include "Solver.h"
 using namespace std;
 
+//Replace input.txt with whatever text file of your puzzle
+#define INPUTFILE "input3.txt"
+
 int main(int argc, char **argv)
 {
-	ifstream fin("input.txt");
+	ifstream fin(INPUTFILE);
 	Sudoku puzzle(fin);
 	Solver solver(&puzzle);
 	solver.solve();

@@ -1,3 +1,8 @@
+/*************************************
+David Goehring, Nick Tallents
+Comp 445 Artificial Intelligence
+Sudoku Solver
+*************************************/
 #include "Solver.h"
 using namespace std;
 
@@ -26,6 +31,7 @@ void Solver::solve()
 			}
 		}
 	}
+	sudoku->print(cout);
 
 	//Constraint cascade
 	bool change = true;
@@ -61,17 +67,7 @@ void Solver::solve()
 		}
 	}
 	
-
-	//Force all initial constraints to assign values
-	/*for(int i=0;i<possibleValues.size(); i++) {
-		for(int j=0;j<possibleValues[i].size();j++) {
-			if(possibleValues[i][j].size() == 1) {
-				sudoku->changeEntry(i+1,j+1,possibleValues[i][j][0]);
-			}
-		}
-	}*/
-	sudoku->print(cout);
-	getchar();
+	
 	
 	while (!solved()) {
 
@@ -136,24 +132,7 @@ bool Solver::constrainRowDomains(int row)
 						possibleValues[row-1][k].erase(it);
 						change = true;
 					}
-					/*for(int j=0;j<possibleValues[row-1][k].size();j++) {
-						if(possibleValues[row-1][k][j] == selected) {
-							swap(possibleValues[row-1][k][j],possibleValues[row-1][k][possibleValues[row-1][k].size()-1]);
-							possibleValues[row-1][k].pop_back();
-							change = true;
-							loop = true;
-							break;
-						}
 
-					}*/
-				}
-	/*			for (auto j=possibleValues[row-1][k].begin(); j!=possibleValues[row-1][k].end(); j++) {
-					if (*j == selected) {
-						possibleValues[row-1][k].erase(j);
-						change = true;
-						break;
-					}
-				}*/
 		}
 	}
 	return change;
@@ -177,19 +156,6 @@ bool Solver::constrainColumnDomains(int col)
 					possibleValues[k][col-1].erase(it);
 					change = true;
 				}
-			/*	loop = true;
-				while(loop) {
-					loop = false;
-					for (int j=0; j<possibleValues[k][col-1].size(); j++) {
-						if (possibleValues[k][col-1][j] == selected) {
-							swap(possibleValues[k][col-1][j],possibleValues[k][col-1][possibleValues[k][col-1].size()-1]);
-							possibleValues[k][col-1].pop_back();
-							change = true;
-							loop = true;
-							break;
-						}
-					}
-				}*/
 			}
 		}
 	}
@@ -217,18 +183,6 @@ bool Solver::constrainLocalBlock(int row, int col)
 						possibleValues[tempRow][tempCol].erase(it);
 						change = true;
 					}
-					//}
-					//for (int k=0; k< possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size(); k++) {
-					//	//For each possible value in the slot's domain
-					//	if (selected == possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k]) {
-					//		//If the value at the current non-zero slot equals a value in the domain of the slot in question
-					//		swap(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k], possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].at(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size()-1));
-					//		//Move the value in the domain to the end of the vector
-					//		possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].pop_back();
-					//		//Pop the value
-					//		change = true;
-					//	}
-					//}
 			}
 		}
 	}

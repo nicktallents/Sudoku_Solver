@@ -1,3 +1,8 @@
+/*************************************
+David Goehring, Nick Tallents
+Comp 445 Artificial Intelligence
+Sudoku Solver
+*************************************/
 #include <iostream>
 #include <vector>
 using std::vector;
