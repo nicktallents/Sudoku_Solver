@@ -30,12 +30,18 @@ void Solver::solve()
 					c = true;
 		change = (a || b || c);
 	}
-	guess();
 	
 	while (!solved()) {
+		if(inconsistent()) {
+			backTrack();
+		}
+
+
+		guess();
 		cout << "NOT SOLVED" << endl;
 	}
 	cout << "SOLVED" << endl;
+	sudoku->print(cout);
 }
 
 bool Solver::solved()
