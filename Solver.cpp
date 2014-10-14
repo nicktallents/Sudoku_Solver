@@ -21,9 +21,13 @@ void Solver::solve()
 	for (int i=1; i<10; i++)
 		constrainColumnDomains(i);
 
-	guess();
 	
 	while (!solved()) {
+		if(inconsistent()) {
+			backTrack();
+		}
+		guess();
+
 		cout << "NOT SOLVED" << endl;
 	}
 	cout << "SOLVED" << endl;
