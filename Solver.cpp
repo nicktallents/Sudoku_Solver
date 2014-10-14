@@ -16,14 +16,22 @@ Solver::Solver(Sudoku* s)
 
 void Solver::solve()
 {
+	for(int i=0;i<9;i++) {
+		for(int j=0;j<9;j++) {
+			if(sudoku->getGrid()[i+1][j+1] != 0) {
+				possibleValues[i][j].clear();
+				possibleValues[i][j].push_back(sudoku->getGrid()[i+1][j+1]);
+			}
+		}
+	}
 	bool change = true;
 	while (change) {
 		bool a,b,c;
 		a = b = c = false;
 		for (int i=1; i<10; i++)
-			a = constrainRowDomains(i);
+			//a = constrainRowDomains(i);
 		for (int i=1; i<10; i++)
-			b = constrainColumnDomains(i);
+			//b = constrainColumnDomains(i);
 		for (int i=1; i<10; i+=3) {
 			for (int j=1; j<10; j+=3) {
 				if (constrainLocalBlock(i,j))
@@ -47,11 +55,11 @@ void Solver::solve()
 			for (int i=1; i<10; i++)
 				a = constrainRowDomains(i);
 			for (int i=1; i<10; i++)
-				b = constrainColumnDomains(i);
+				//b = constrainColumnDomains(i);
 			for (int i=1; i<10; i+=3) {
 				for (int j=1; j<10; j+=3) {
-					if (constrainLocalBlock(i,j))
-						c = true;
+					//if (constrainLocalBlock(i,j))
+						//c = true;
 				}
 			}
 			change = (a || b || c);
@@ -81,6 +89,7 @@ bool Solver::constrainRowDomains(int row)
 		int temp = sudoku->getGrid()[row][i+1];
 		if (sudoku->getGrid()[row][i+1] != 0) {
 			for (int k=0; k<9; k++) {
+				if(k == i) continue;
 				for (auto j=possibleValues[row-1][k].begin(); j!=possibleValues[row-1][k].end(); j++) {
 					if (*j == sudoku->getGrid()[row][i+1]) {
 						possibleValues[row-1][k].erase(j);
@@ -100,6 +109,7 @@ bool Solver::constrainColumnDomains(int col)
 	for (int i=0; i<9; i++) {
 		if (sudoku->getGrid()[i+1][col] != 0) {
 			for (int k=0; k<9; k++) {
+				if(k == i) continue;
 				for (int j=0; j<possibleValues[k][col-1].size(); j++) {
 					if (possibleValues[k][col-1][j] == sudoku->getGrid()[i+1][col]) {
 						swap(possibleValues[k][col-1][j],possibleValues[k][col-1][possibleValues[k][col-1].size()-1]);
@@ -119,13 +129,22 @@ bool Solver::constrainLocalBlock(int row, int col)
 	bool change = false;
 	int sq = sudoku->getSqNumber(row,col);
 	vector<vector<int>>squares = sudoku->getSquares();
+	//Square Indices
 	for (int i=0; i<18; i+=2) {
+		//For each slot in the square
 		if (sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] != 0) {
+			//If the slot has a value already
 			for (int j=0; j<18; j+=2) {
+				//For each slot in the square
+				if(sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] == sudoku->getGrid()[squares[sq][j]][squares[sq][j+1]]) continue;
 				for (int k=0; k< possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size(); k++) {
+					//For each possible value in the slot's domain
 					if (sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] == possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k]) {
+						//If the value at the current non-zero slot equals a value in the domain of the slot in question
 						swap(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1][k], possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].at(possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].size()-1));
+						//Move the value in the domain to the end of the vector
 						possibleValues[squares[sq][j]-1][squares[sq][j+1]-1].pop_back();
+						//Pop the value
 						change = true;
 						break;
 					}
