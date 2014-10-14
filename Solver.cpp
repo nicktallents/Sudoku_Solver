@@ -24,10 +24,12 @@ void Solver::solve()
 			a = constrainRowDomains(i);
 		for (int i=1; i<10; i++)
 			b = constrainColumnDomains(i);
-		for (int i=1; i<10; i+=3)
-			for (int j=1; j<10; j+=3)
+		for (int i=1; i<10; i+=3) {
+			for (int j=1; j<10; j+=3) {
 				if (constrainLocalBlock(i,j))
 					c = true;
+			}
+		}
 		change = (a || b || c);
 	}
 	
@@ -46,10 +48,12 @@ void Solver::solve()
 				a = constrainRowDomains(i);
 			for (int i=1; i<10; i++)
 				b = constrainColumnDomains(i);
-			for (int i=1; i<10; i+=3)
-				for (int j=1; j<10; j+=3)
+			for (int i=1; i<10; i+=3) {
+				for (int j=1; j<10; j+=3) {
 					if (constrainLocalBlock(i,j))
 						c = true;
+				}
+			}
 			change = (a || b || c);
 		}
 		cout << "NOT SOLVED" << endl;
