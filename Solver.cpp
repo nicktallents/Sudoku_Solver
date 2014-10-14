@@ -4,6 +4,7 @@ using namespace std;
 Solver::Solver(Sudoku* s)
 {
 	sudoku = s;
+	elapsedTime = -1;
 	vector<int> domain;
 	vector<vector<int>> tempCols;
 	for (int i=1; i<10; i++)
@@ -16,7 +17,7 @@ Solver::Solver(Sudoku* s)
 
 void Solver::solve()
 {
-
+	int startTime = clock();
 	//Set domains of initial values to only the inital value
 	for(int i=0;i<9;i++) {
 		for(int j=0;j<9;j++) {
@@ -102,6 +103,7 @@ void Solver::solve()
 			change = (a || b || c);
 		}
 	}
+	elapsedTime = (clock() - startTime)/1000;
 	cout << "SOLVED" << endl;
 	sudoku->print(cout);
 }

@@ -10,6 +10,7 @@ int main(int argc, char **argv)
 	Sudoku puzzle(fin);
 	Solver solver(&puzzle);
 	solver.solve();
+	cout << "Elapsed Time in ms: " << solver.getElapsedTime() << endl;
 
 	//puzzle.print(cout);
 	//cout << endl;
