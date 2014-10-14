@@ -133,9 +133,9 @@ bool Sudoku::isValidEntry(int row, int col, int val)
 			return false;
 	}
 	for (int i=0; i<18; i+=2) {
-		auto v = grid[squares[square][i]][squares[square][i+1]];
-		auto r = squares[square][i];
-		auto c = squares[square][i+1];
+		//auto v = grid[squares[square][i]][squares[square][i+1]];
+		//auto r = squares[square][i];
+		//auto c = squares[square][i+1];
 		if (grid[squares[square][i]][squares[square][i+1]] == val)
 			return false;
 	}

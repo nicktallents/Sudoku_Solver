@@ -70,3 +70,14 @@ void Solver::constrainColumnDomains(int col)
 		}
 	}
 }
+
+void Solver::constrainLocalBlock(int row, int col)
+{
+	//int sq = sudoku->getSqNumber(row,col);
+	//vector<vector<int>>squares = sudoku->getSquares();
+	//for (int i=0; i<18; i+=2) {
+	//	for (int j=0; j<3; j++) {
+	//		if (sudoku->getGrid[squares[sq][i]][squares[sq][i+1]] == possibleValues[i])
+	//	}
+	//}
+}

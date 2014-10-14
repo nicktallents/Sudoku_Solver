@@ -27,7 +27,7 @@ public:
 	void changeEntry(int row, int col, int val); // row, col, and val must be 0-9
 	bool isRowFull(int row); // row must be 0-9
 	bool isColFull(int col); // col must be 0-9
-
+	std::vector<std::vector<int> > getSquares() {return squares;}
 	
 	int  getSqNumber(int row, int col); // returns the index of the 3x3 square you're in given the coordinates
 	bool isValidEntry(int row, int col, int val); // row, col, and val must be 0-9
