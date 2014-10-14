@@ -42,7 +42,7 @@ public:
 	void backTrack(bool& root);
 	void guess();
 
-	int getElapsedTime() {return elapsedTime;}
+	float getElapsedTime() {return elapsedTime;}
 
 private:
 	Sudoku* sudoku;
@@ -50,7 +50,7 @@ private:
 	std::vector<std::vector<std::vector<int>>> possibleValues;
 
 	std::vector<Pair> chosenRoots;
-	int elapsedTime;
+	float elapsedTime;
 };
 
 #endif

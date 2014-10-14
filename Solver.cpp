@@ -22,7 +22,7 @@ Solver::Solver(Sudoku* s)
 
 void Solver::solve()
 {
-	int startTime = clock();
+	float startTime = clock();
 	//Set domains of initial values to only the inital value
 	for(int i=0;i<9;i++) {
 		for(int j=0;j<9;j++) {
@@ -99,7 +99,7 @@ void Solver::solve()
 			change = (a || b || c);
 		}
 	}
-	elapsedTime = (clock() - startTime)/1000;
+	elapsedTime = (clock() - startTime)/1000.0f;
 	cout << "SOLVED" << endl;
 	sudoku->print(cout);
 }
@@ -134,7 +134,7 @@ bool Solver::constrainRowDomains(int row)
 						possibleValues[row-1][k].erase(it);
 						change = true;
 					}
-
+			}
 		}
 	}
 	return change;
