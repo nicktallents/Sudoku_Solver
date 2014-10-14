@@ -41,43 +41,56 @@ bool Solver::solved()
 	return false;
 }
 
-void Solver::constrainRowDomains(int row)
+bool Solver::constrainRowDomains(int row)
 {
+	bool change = false;
 	for (int i=0; i<9; i++) {
 		int temp = sudoku->getGrid()[row][i+1];
 		if (sudoku->getGrid()[row][i+1] != 0) {
 			for (auto j=possibleValues[row-1][i].begin(); j<possibleValues[row-1][i].end(); j++) {
 				if (*j == sudoku->getGrid()[row][i+1]) {
 					possibleValues[row-1][i].erase(j);
+					change = true;
 					break;
 				}
 			}
 		}
 	}
+	return change;
 }
 
-void Solver::constrainColumnDomains(int col)
+bool Solver::constrainColumnDomains(int col)
 {
+	bool change = false;
 	for (int i=0; i<9; i++) {
 		if (sudoku->getGrid()[i+1][col] != 0) {
 			for (int j=0; j<possibleValues[i][col-1].size(); j++) {
 				if (possibleValues[i][col-1][j] == sudoku->getGrid()[i+1][col]) {
 					swap(possibleValues[i][col-1][j],possibleValues[i][col-1][possibleValues[i][col-1].size()-1]);
 					possibleValues[i][col-1].pop_back();
+					change = true;
 					break;
 				}
 			}
 		}
 	}
+	return change;
 }
 
-void Solver::constrainLocalBlock(int row, int col)
+bool Solver::constrainLocalBlock(int row, int col)
 {
-	//int sq = sudoku->getSqNumber(row,col);
-	//vector<vector<int>>squares = sudoku->getSquares();
-	//for (int i=0; i<18; i+=2) {
-	//	for (int j=0; j<3; j++) {
-	//		if (sudoku->getGrid[squares[sq][i]][squares[sq][i+1]] == possibleValues[i])
-	//	}
-	//}
+	bool change = false;
+	int sq = sudoku->getSqNumber(row,col);
+	vector<vector<int>>squares = sudoku->getSquares();
+	for (int i=0; i<18; i+=2) {
+		for (int j=0; j<possibleValues[squares[sq][i]-1][squares[sq][i+1]-1].size(); j++) {
+			if (sudoku->getGrid()[squares[sq][i]][squares[sq][i+1]] == possibleValues[squares[sq][i]-1][squares[sq][i+1]-1][j]) {
+				swap(possibleValues[squares[sq][i]-1][squares[sq][i+1]-1][j], possibleValues[squares[sq][i]-1][squares[sq][i+1]-1].at(possibleValues[squares[sq][i]-1][squares[sq][i+1]-1].size()-1));
+				possibleValues[squares[sq][i]-1][squares[sq][i+1]-1].pop_back();
+				change = true;
+				break;
+			}
+		}
+	}
+	return change;
 }
