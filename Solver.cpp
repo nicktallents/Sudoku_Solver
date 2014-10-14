@@ -20,6 +20,8 @@ void Solver::solve()
 		constrainRowDomains(i);
 	for (int i=1; i<10; i++)
 		constrainColumnDomains(i);
+
+	guess();
 	
 	while (!solved()) {
 		cout << "NOT SOLVED" << endl;
