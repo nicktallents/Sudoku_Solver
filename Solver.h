@@ -17,9 +17,9 @@ public:
 	Solver(Sudoku* s);
 	void solve();
 	bool solved();
-	void constrainRowDomains(int row);
-	void constrainColumnDomains(int col);
-	void constrainLocalBlock(int row, int col);
+	bool constrainRowDomains(int row);
+	bool constrainColumnDomains(int col);
+	bool constrainLocalBlock(int row, int col);
 private:
 	Sudoku* sudoku;
 	std::vector<Change> changes;
