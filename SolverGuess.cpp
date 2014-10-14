@@ -17,7 +17,7 @@ void Solver::guess() {
 	int guessRow, guessCol;
 	for(int i=0;i<possibleValues.size();i++) {
 		for(int j=0;j<possibleValues[i].size();j++) {
-			if(possibleValues[i][j].size() < smallest && sudoku->getGrid()[i+1][j+1] == 0) {
+			if(possibleValues[i][j].size() < smallest) {
 				smallest = possibleValues[i][j].size();
 				guessRow = i;
 				guessCol = j;
@@ -31,13 +31,13 @@ void Solver::guess() {
 	ch.value = possibleValues[guessRow][guessCol][possibleValues[guessRow][guessCol].size()-1];
 	changes.push_back(ch);
 	possibleValues[guessRow][guessCol].pop_back();
-	sudoku->changeEntry(ch.row+1, ch.column+1, ch.value);
+	sudoku->changeEntry(ch.row, ch.column, ch.value);
 
 }
 
 
 void Solver::backTrack() {
-	Change ch = changes[changes.size()];
+	Change ch = changes[changes.size()-1];
 	changes.pop_back();
 
 	restoreDomains(ch);
@@ -57,10 +57,10 @@ void Solver::restoreDomains(Change ch) {
 	}
 	                 
 	vector<vector<int>> squares = sudoku->getSquares();
-	int sq = sudoku->getSqNumber(ch.row, ch.column);
+	int sq = sudoku->getSqNumber(ch.row+1, ch.column+1);
 	for(int i=0;i<18; i+=2) {
 		int tempCol = squares[sq][i];
 		int tempRow = squares[sq][i+1];
-		possibleValues[tempRow][tempCol].push_back(ch.value);
+		possibleValues[tempRow-1][tempCol-1].push_back(ch.value);
 	}
 }
