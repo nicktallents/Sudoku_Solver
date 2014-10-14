@@ -19,3 +19,16 @@ void Solver::backTrack() {
 
 	restoreDomains(ch);
 }
+
+void Solver::restoreDomains(Change ch) {
+	for(int i=0;i<possibleValues[ch.row].size();i++) {
+		possibleValues[ch.row][i].push_back(ch.value);
+	}
+	for(int i=0;i<possibleValues.size(); i++) {
+		possibleValues[i][ch.column].push_back(ch.value);
+	}
+	                              
+	for(int i=0;i<possibleValues.size(); i++) {
+
+	}
+}
